@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vivus.js</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        div {
+            height: 100vh;
+            border-bottom: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="my-div-1"></div>
+    <div id="my-div-2"></div>
+    <div id="my-div-3"></div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.5/vivus.min.js"></script>
+    
+    <script>
+        const myDiv1 = new Vivus('my-div-1', {
+            duration: 200,
+            file: 'images/coffee.svg',
+            start: 'autostart',
+            pathTimingFunction: Vivus.EASE_OUT_BOUNCE
+        }, function () {
+            // console.table(myDiv1.map);
+        });
+        const myDiv2 = new Vivus('my-div-2', {
+            duration: 200,
+            file: 'images/phone.svg'
+        }, function () {
+            // console.table(myDiv2.map);
+        });
+        const myDiv3 = new Vivus('my-div-3', {
+            duration: 200,
+            file: 'images/cross.svg'
+        }, function () {
+            // console.table(myDiv3.map);
+        });
+        var myWaypoint1 = new Waypoint({
+            element: document.getElementById('my-div-1'),
+            handler: function (direction) {
+                console.log('waypoint 1 is working');
+                myDiv1.reset().play(1);
+            },
+            offset: '-100%'
+        });
+        var myWaypoint2 = new Waypoint({
+            element: document.getElementById('my-div-2'),
+            handler: function (direction) {
+                console.log('waypoint 2 is working');
+                myDiv2.reset().play(1);
+            },
+            offset: '-100%'
+        });
+    </script>
+</body>
+
+</html>
