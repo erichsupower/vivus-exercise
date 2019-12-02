@@ -68,6 +68,63 @@
 | `destroy() `                 | 重置 SVG (but make the instance out of order)。                                              |
 
 這些 Methods return the object ，因此您可以鏈接操作，範例如下：
-const myVivus = new Vivus('my-svg-id');
 
-```myVivus.stop().reset().play(2);```
+```JS
+const myVivus = new Vivus('my-svg-id');
+myVivus.stop().reset().play(2);
+```
+
+## Timing function
+
+`EASE`, `EASE_IN`, `EASE_OUT` and `EASE_OUT_BOUNCE`
+
+## Extra attributes
+
+屬性 `data-ignore` 可以忽略 vivus 動畫中的路徑標籤。
+
+```HTML
+<svg id="my-svg">
+  <path...>
+  <path data-ignore="true" ...>
+  <path...>
+</svg>
+```
+
+## Scenarize (腳本)
+
+- `data-start` (integer) 動畫開始的時間（以 **frames** 為單位）
+- `data-duration` (integer) 該路徑的動畫持續時間（以 **frames** 為單位）
+
+```HTML
+<svg>
+  <path data-start="0" data-duration="10" ... />
+  <path data-start="20" data-duration="10" ... />
+  <path data-start="20" data-duration="20" ... />
+  <path data-start="0" data-duration="30" ... />
+</svg>
+```
+
+## Scenarize (腳本同步)
+
+- `data-delay` 前一條路徑的動畫結束與當前路徑的開始之間的時間（以 **frames** 為單位）
+- `data-duration` (integer) 此路徑動畫的持續時間（以 **frames** 為單位）
+- `data-async` (no value required) 使此路徑的繪製異步。意味著下一條路徑將同時開始。如果路徑沒有持續時間或延遲的屬性，則將使用選項中設置的默認值。
+
+```HTML
+<svg>
+  <path data-duration="10" ... />
+  <path data-delay="10" data-async ... />
+  <path data-delay="15" ... />
+  <path data-duration="10" data-delay="45" data-async ... />
+  <path data-duration="50" data-delay="5" ... />
+</svg>
+```
+
+## Debug
+
+```JS
+const logo = new Vivus('myLogo', { type: 'scenario-sync' });
+
+// The property 'map' contain all the SVG mapping
+console.table(logo.map);
+```
