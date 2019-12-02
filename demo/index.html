@@ -6,62 +6,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vivus.js</title>
-    <style>
-        body {
-            margin: 0;
-        }
-        div {
-            height: 100vh;
-            border-bottom: 1px solid red;
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div id="my-div-1"></div>
-    <div id="my-div-2"></div>
-    <div id="my-div-3"></div>
+    <section id="coffee" class="section"></section>
+    <section id="phone" class="section"></section>
+    <section id="cross" class="section"></section>
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.5/vivus.min.js"></script>
-    
+
     <script>
-        const myDiv1 = new Vivus('my-div-1', {
-            duration: 200,
-            file: 'images/coffee.svg',
-            start: 'autostart',
-            pathTimingFunction: Vivus.EASE_OUT_BOUNCE
-        }, function () {
-            // console.table(myDiv1.map);
-        });
-        const myDiv2 = new Vivus('my-div-2', {
-            duration: 200,
-            file: 'images/phone.svg'
-        }, function () {
-            // console.table(myDiv2.map);
-        });
-        const myDiv3 = new Vivus('my-div-3', {
-            duration: 200,
-            file: 'images/cross.svg'
-        }, function () {
-            // console.table(myDiv3.map);
-        });
-        var myWaypoint1 = new Waypoint({
-            element: document.getElementById('my-div-1'),
-            handler: function (direction) {
-                console.log('waypoint 1 is working');
-                myDiv1.reset().play(1);
-            },
-            offset: '-100%'
-        });
-        var myWaypoint2 = new Waypoint({
-            element: document.getElementById('my-div-2'),
-            handler: function (direction) {
-                console.log('waypoint 2 is working');
-                myDiv2.reset().play(1);
-            },
-            offset: '-100%'
+        $(document).ready(function () {
+
+            const $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $(
+                    'html,body'),
+                $section = $('section');
+
+            var numOfPages = $section.length - 1, //取得section的數量
+                curPage = 0, //初始頁
+                scrollLock = false;
+
+            function scrollPage() {
+                //滑鼠滾動
+                $(document).on("mousewheel DOMMouseScroll", function (e) {
+                    if (scrollLock) return;
+                    if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
+                        navigateUp();
+                    else
+                        navigateDown();
+                });
+                //鍵盤上下鍵
+                $(document).on("keydown", function (e) {
+                    if (scrollLock) return;
+                    if (e.which === 38)
+                        navigateUp();
+                    else if (e.which === 40)
+                        navigateDown();
+                });
+            }
+
+            function pagination() {
+                scrollLock = true;
+                $body.stop().animate({
+                    scrollTop: $section.eq(curPage).offset().top
+                }, 1000, 'swing', function () {
+                    scrollLock = false;
+                });
+            };
+
+            function navigateUp() {
+                if (curPage === 0) return;
+                curPage--;
+                pagination();
+            };
+
+            function navigateDown() {
+                if (curPage === numOfPages) return;
+                curPage++;
+                pagination();
+            };
+
+            $(function () {
+                scrollPage();
+            });
+
+            const coffee = new Vivus('coffee', {
+                duration: 200,
+                file: 'images/coffee.svg',
+                start: 'autostart',
+                pathTimingFunction: Vivus.EASE_OUT_BOUNCE
+            }, function () {
+                // console.table(coffee.map);
+            });
+            const phone = new Vivus('phone', {
+                duration: 200,
+                file: 'images/phone.svg'
+            }, function () {
+                // console.table(phone.map);
+            });
+            const cross = new Vivus('cross', {
+                duration: 200,
+                file: 'images/cross.svg'
+            }, function () {
+                // console.table(cross.map);
+            });
+            var myWaypoint1 = new Waypoint({
+                element: document.getElementById('coffee'),
+                handler: function (direction) {
+                    console.log('waypoint 1 is working');
+                    coffee.reset().play(1);
+                },
+                offset: '-100%'
+            });
+            var myWaypoint2 = new Waypoint({
+                element: document.getElementById('phone'),
+                handler: function (direction) {
+                    console.log('waypoint 2 is working');
+                    phone.reset().play(1);
+                },
+                offset: '-100%'
+            });
         });
     </script>
 </body>
