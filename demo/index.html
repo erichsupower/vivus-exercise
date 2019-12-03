@@ -20,96 +20,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.5/vivus.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        const animCoffee = new Vivus('coffee', {
+            duration: 200,
+            file: 'images/coffee.svg',
+            start: 'autostart',
+            pathTimingFunction: Vivus.EASE_OUT_BOUNCE
+        }, function () {
+            // console.table(phone.map);
+        });
 
-            const $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $(
-                    'html,body'),
-                $section = $('section');
+        const animPhone = new Vivus('phone', {
+            duration: 200,
+            file: 'images/phone.svg',
+            start: 'manual',
+        });
 
-            var numOfPages = $section.length - 1, //取得section的數量
-                curPage = 0, //初始頁
-                scrollLock = false;
+        const animCross = new Vivus('cross', {
+            duration: 200,
+            file: 'images/cross.svg'
+        });
 
-            function scrollPage() {
-                //滑鼠滾動
-                $(document).on("mousewheel DOMMouseScroll", function (e) {
-                    if (scrollLock) return;
-                    if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
-                        navigateUp();
-                    else
-                        navigateDown();
-                });
-                //鍵盤上下鍵
-                $(document).on("keydown", function (e) {
-                    if (scrollLock) return;
-                    if (e.which === 38)
-                        navigateUp();
-                    else if (e.which === 40)
-                        navigateDown();
-                });
+        var sectionPhone = new Waypoint({
+            element: document.getElementById('coffee'),
+            handler: function (direction) {
+                animCoffee.reset().play(1);
+                animCross.reset().play(1);
+            },
+            offset: '-100%'
+        });
+
+        var sectionCross = new Waypoint({
+            element: document.getElementById('phone'),
+            start: 'autostart',
+            handler: function (direction) {
+                if (direction === "up") {
+                    console.log("upup");
+                    animCross.play(-2);
+                }
+            },
+            offset: '-100%'
+        });
+
+        x = 0;
+
+        $(document).bind('mousewheel', function (event) {
+
+            y = window.pageYOffset;
+
+            if (x < 0){ x = 0 }
+
+            if (x > 1){ x = 1 }
+            
+            if (event.originalEvent.wheelDelta >= 0 && y < 1500) {
+                animPhone.setFrameProgress(x -= 0.005);
+            } else {
+                animPhone.setFrameProgress(x += 0.005);
             }
-
-            function pagination() {
-                scrollLock = true;
-                $body.stop().animate({
-                    scrollTop: $section.eq(curPage).offset().top
-                }, 1000, 'swing', function () {
-                    scrollLock = false;
-                });
-            };
-
-            function navigateUp() {
-                if (curPage === 0) return;
-                curPage--;
-                pagination();
-            };
-
-            function navigateDown() {
-                if (curPage === numOfPages) return;
-                curPage++;
-                pagination();
-            };
-
-            $(function () {
-                scrollPage();
-            });
-
-            const coffee = new Vivus('coffee', {
-                duration: 200,
-                file: 'images/coffee.svg',
-                start: 'autostart',
-                pathTimingFunction: Vivus.EASE_OUT_BOUNCE
-            }, function () {
-                // console.table(coffee.map);
-            });
-            const phone = new Vivus('phone', {
-                duration: 200,
-                file: 'images/phone.svg'
-            }, function () {
-                // console.table(phone.map);
-            });
-            const cross = new Vivus('cross', {
-                duration: 200,
-                file: 'images/cross.svg'
-            }, function () {
-                // console.table(cross.map);
-            });
-            var myWaypoint1 = new Waypoint({
-                element: document.getElementById('coffee'),
-                handler: function (direction) {
-                    console.log('waypoint 1 is working');
-                    coffee.reset().play(1);
-                },
-                offset: '-100%'
-            });
-            var myWaypoint2 = new Waypoint({
-                element: document.getElementById('phone'),
-                handler: function (direction) {
-                    console.log('waypoint 2 is working');
-                    phone.reset().play(1);
-                },
-                offset: '-100%'
-            });
         });
     </script>
 </body>
