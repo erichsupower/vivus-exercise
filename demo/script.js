@@ -44,9 +44,6 @@ var sectionCross = new Waypoint({
 // 建立變數 x 儲存數值
 var x = 0;
 
-// 建立變數 y 用來儲存 window.pageYOffset 屬性
-var y = window.pageYOffset;
-
 // 建立變數 currentScroll 用來儲存目前頁面滾動的數值
 var currentScroll;
 
@@ -54,9 +51,6 @@ var currentScroll;
 var previousScroll = 0;
 
 function lineAnimation(event) {
-    // 更新 window.pageYOffset 屬性
-    // 參考資料：https://www.runoob.com/jsref/prop-win-pagexoffset.html
-    y = window.pageYOffset;
 
     // 限制 x 的數值範圍在 0 ~ 1 之間
     if (x < 0) {
