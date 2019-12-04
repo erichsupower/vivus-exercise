@@ -11,28 +11,30 @@
   <path></path>
   <path></path>
 </svg>
-
+```
+```JS
 <script>
   new Vivus('my-svg', {duration: 200}, myCallback);
 </script>
 ```
 
 ## 開始使用二：Dynamic load
-
+#### 方法一
 ```HTML
-<!-- 方法一 -->
-
 <object id="my-svg" type="image/svg+xml" data="link/to/my.svg"></object>
-
+```
+```JS
 <script>
   new Vivus('my-svg', { duration: 200 }, myCallback);
 </script>
 ```
+
+#### 方法二
+
 ```HTML
-<!-- 方法二 -->
-
 <div id="my-div"></div>
-
+```
+```JS
 <script>
   new Vivus('my-div', { duration: 200, file: 'link/to/my.svg' }, myCallback);
 </script>

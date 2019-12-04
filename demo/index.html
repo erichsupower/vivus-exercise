@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vivus.js</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -18,66 +18,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.5/vivus.min.js"></script>
-
-    <script>
-        const animCoffee = new Vivus('coffee', {
-            duration: 200,
-            file: 'images/coffee.svg',
-            start: 'autostart',
-            pathTimingFunction: Vivus.EASE_OUT_BOUNCE
-        }, function () {
-            // console.table(phone.map);
-        });
-
-        const animPhone = new Vivus('phone', {
-            duration: 200,
-            file: 'images/phone.svg',
-            start: 'manual',
-        });
-
-        const animCross = new Vivus('cross', {
-            duration: 200,
-            file: 'images/cross.svg'
-        });
-
-        var sectionPhone = new Waypoint({
-            element: document.getElementById('coffee'),
-            handler: function (direction) {
-                animCoffee.reset().play(1);
-                animCross.reset().play(1);
-            },
-            offset: '-100%'
-        });
-
-        var sectionCross = new Waypoint({
-            element: document.getElementById('phone'),
-            start: 'autostart',
-            handler: function (direction) {
-                if (direction === "up") {
-                    console.log("upup");
-                    animCross.play(-2);
-                }
-            },
-            offset: '-100%'
-        });
-
-        x = 0;
-
-        $(document).bind('mousewheel', function (event) {
-
-            y = window.pageYOffset;
-
-            if (x < 0){ x = 0 }
-
-            if (x > 1){ x = 1 }
-            
-            if (event.originalEvent.wheelDelta >= 0 && y < 1500) {
-                animPhone.setFrameProgress(x -= 0.005);
-            } else {
-                animPhone.setFrameProgress(x += 0.005);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
